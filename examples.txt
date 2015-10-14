@@ -1,0 +1,243 @@
+[1] "business.json"
+[
+  {
+    "business_id": "H5Z1LXj6pietGhd3jnrjHQ",
+    "full_address": "15810 S 45th St\nPhoenix, AZ 85048",
+    "hours": {
+      "Tuesday": {
+        "close": "17:00",
+        "open": "08:00"
+      },
+      "Friday": {
+        "close": "14:00",
+        "open": "08:00"
+      },
+      "Monday": {
+        "close": "17:00",
+        "open": "08:00"
+      },
+      "Wednesday": {
+        "close": "17:00",
+        "open": "08:00"
+      },
+      "Thursday": {
+        "close": "17:00",
+        "open": "08:00"
+      },
+      "Saturday": {},
+      "Sunday": {}
+    },
+    "open": true,
+    "categories": ["Doctors", "Health & Medical", "Podiatrists"],
+    "city": "Phoenix",
+    "review_count": 5,
+    "name": "Ahwatukee Ankle & Foot Center",
+    "neighborhoods": [],
+    "longitude": -111.9874,
+    "state": "AZ",
+    "stars": 5,
+    "latitude": 33.3036,
+    "attributes": {
+      "By Appointment Only": true,
+      "Parking": {},
+      "Good For": {},
+      "Ambience": {},
+      "Music": {},
+      "Dietary Restrictions": {},
+      "Hair Types Specialized In": {}
+    },
+    "type": "business"
+  }
+] 
+[1] "checkin.json"
+[
+  {
+    "checkin_info": {
+      "22-6": 10,
+      "22-5": 11,
+      "22-4": 13,
+      "22-3": 5,
+      "22-2": 4,
+      "22-1": 6,
+      "22-0": 3,
+      "19-5": 10,
+      "19-4": 7,
+      "19-6": 4,
+      "19-1": 6,
+      "19-0": 7,
+      "19-3": 5,
+      "19-2": 10,
+      "11-5": 10,
+      "11-4": 5,
+      "11-6": 12,
+      "11-1": 2,
+      "11-0": 2,
+      "11-3": 4,
+      "11-2": 6,
+      "12-6": 3,
+      "4-4": 1,
+      "12-4": 6,
+      "12-5": 5,
+      "12-2": 9,
+      "12-3": 5,
+      "12-0": 7,
+      "12-1": 3,
+      "16-2": 8,
+      "16-3": 3,
+      "16-0": 4,
+      "16-1": 5,
+      "16-6": 4,
+      "16-4": 8,
+      "7-2": 5,
+      "21-4": 4,
+      "21-5": 2,
+      "21-6": 4,
+      "21-0": 4,
+      "21-1": 5,
+      "21-2": 4,
+      "21-3": 12,
+      "7-0": 4,
+      "7-6": 2,
+      "7-4": 5,
+      "15-1": 1,
+      "15-0": 3,
+      "15-3": 4,
+      "15-2": 3,
+      "15-5": 2,
+      "15-4": 5,
+      "15-6": 3,
+      "18-0": 2,
+      "18-1": 4,
+      "18-2": 7,
+      "18-3": 6,
+      "18-4": 5,
+      "18-5": 7,
+      "18-6": 5,
+      "16-5": 2,
+      "6-4": 2,
+      "6-2": 2,
+      "6-3": 4,
+      "6-0": 1,
+      "6-1": 2,
+      "8-4": 5,
+      "8-5": 8,
+      "8-6": 6,
+      "8-0": 12,
+      "8-1": 15,
+      "8-2": 17,
+      "8-3": 7,
+      "7-3": 6,
+      "23-3": 1,
+      "23-5": 1,
+      "0-4": 2,
+      "0-5": 2,
+      "0-6": 1,
+      "2-4": 1,
+      "2-5": 2,
+      "13-3": 7,
+      "13-2": 5,
+      "13-1": 9,
+      "13-0": 2,
+      "13-6": 4,
+      "13-5": 8,
+      "13-4": 5,
+      "7-1": 6,
+      "9-1": 5,
+      "9-0": 7,
+      "9-3": 10,
+      "9-2": 5,
+      "9-5": 3,
+      "9-4": 6,
+      "9-6": 9,
+      "20-1": 4,
+      "20-0": 7,
+      "20-3": 7,
+      "20-2": 9,
+      "20-5": 1,
+      "20-4": 5,
+      "7-5": 2,
+      "20-6": 6,
+      "17-6": 8,
+      "17-5": 3,
+      "17-4": 5,
+      "17-3": 3,
+      "17-2": 3,
+      "17-1": 12,
+      "17-0": 4,
+      "10-0": 6,
+      "10-1": 3,
+      "10-2": 6,
+      "10-3": 6,
+      "10-4": 4,
+      "10-5": 9,
+      "10-6": 9,
+      "0-2": 1,
+      "14-4": 3,
+      "14-5": 7,
+      "14-6": 7,
+      "14-0": 4,
+      "14-1": 3,
+      "14-2": 3,
+      "14-3": 1,
+      "1-1": 1,
+      "1-3": 1,
+      "5-5": 1,
+      "5-1": 1,
+      "5-2": 1,
+      "3-6": 1,
+      "3-4": 2,
+      "3-3": 1,
+      "3-1": 1
+    },
+    "type": "checkin",
+    "business_id": "f3PgaRgjxYr9HvA0hF80yw"
+  }
+] 
+[1] "review.json"
+[
+  {
+    "votes": {
+      "funny": 0,
+      "useful": 1,
+      "cool": 1
+    },
+    "user_id": "6hEtSj4fjmO0Ss8rWGGApg",
+    "review_id": "5wudfXQDLcU5FdNt4bDZGw",
+    "stars": 5,
+    "date": "2014-07-18",
+    "text": "What an incredible dining experience. Chef Christopher recommended a tasting menu and so glad we agreed. Each plate was absolutely amazing. The calamari steak was perfectly tender and delicious. The pastilla, a personal favorite, was better than any I've had before. The baked fish and beef tagine were each uniquely delightful. I had read some reviews before coming to dinner and had high expectations, the chef far exceeded those expectations with every dish we were served. We were also seriously impressed with the staff, everyone was friendly, helpful and really seemed to care about the food and the restaurant. . We will return, again and again.",
+    "type": "review",
+    "business_id": "nXf-BsH3EgtoCPqmLS0M7A"
+  }
+] 
+[1] "tip.json"
+[
+  {
+    "user_id": "sxhAYDkpPuGqRKJEZIJjfg",
+    "text": "Try the corn nuggets!!! Trust.",
+    "business_id": "05fTEsjUPVo5jks8PpNKCQ",
+    "likes": 0,
+    "date": "2014-08-05",
+    "type": "tip"
+  }
+] 
+[1] "user.json"
+[
+  {
+    "yelping_since": "2013-09",
+    "votes": {
+      "funny": 0,
+      "useful": 1,
+      "cool": 0
+    },
+    "review_count": 4,
+    "name": "Cindy",
+    "user_id": "1ItwOO9_Vl_tcNoPqJ_Rsw",
+    "friends": [],
+    "fans": 0,
+    "average_stars": 3.25,
+    "type": "user",
+    "compliments": {},
+    "elite": []
+  }
+] 
