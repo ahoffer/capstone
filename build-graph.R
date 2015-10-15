@@ -40,12 +40,10 @@ g = g + vertex(
                                 TRUE)
 )
 
-
 #Attribute names
 # sapply(names(alldata$business.json$attributes), USE.NAMES = FALSE, function(name) {
 #   gsub("\\s", "-", name, perl = TRUE)
 # });
-
 
 #Business nodes
 objects = alldata$business.json
@@ -81,3 +79,4 @@ g = g +    edge(
 )
 
 
+#Add friend relationships
