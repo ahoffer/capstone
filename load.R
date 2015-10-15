@@ -18,7 +18,7 @@ packages("jsonlite")
 
 #Path to directory with JSON files
 PATH = ""
-# PATH = "/Users/aaronhoffer/Downloads/yelp_dataset_challenge_academic_dataset/"
+PATH = "/Users/aaronhoffer/Downloads/yelp_dataset_challenge_academic_dataset/"
 
 #Helper method to create R objects from JSON
 json2r = function(json_file_name) {
@@ -30,9 +30,13 @@ extract_record = function(alldata, datalist, record_number) {
   toJSON(alldata[datalist][[1]][record_number, ], pretty=TRUE)
 }
 
-allfilenanmes = c("business.json", "checkin.json", "review.json", "tip.json", "user.json")
+# allfilenanmes = c("business.json", "checkin.json", "review.json", "tip.json", "user.json")
+allfilenanmes = c("business.json", "review.json", "user.json")
 alldata = sapply(allfilenanmes, json2r, USE.NAMES = TRUE)
-garbage = sapply(names(alldata), FUN = function(name) { print(name); print(extract_record(alldata, name, 1))})
+save(alldata, file="alldata.RData")
+
+# garbage = sapply(names(alldata), FUN = function(name) { print(name); print(extract_record(alldata, name, 1))})
 
  
 
+load("alldata.RData")
