@@ -1,0 +1,1 @@
+All about special node and edge attributes - http://igraph.org/python/doc/tutorial/tutorial.html

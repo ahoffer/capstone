@@ -13,9 +13,8 @@
 # #to view the data hierarchically 
 # toJSON(first_list, pretty = TRUE)
 
-
-install.packages("jsonlite")
-library(jsonlite)
+source("packages.R")
+packages("jsonlite")
 
 #Path to directory with JSON files
 PATH = ""
@@ -32,10 +31,7 @@ extract_record = function(alldata, datalist, record_number) {
 }
 
 allfilenanmes = c("business.json", "checkin.json", "review.json", "tip.json", "user.json")
-# allfilenanmes = c("small_business", "small_checkin", "small_reviews", "small_tip", "small_user")
-
 alldata = sapply(allfilenanmes, json2r, USE.NAMES = TRUE)
-
 garbage = sapply(names(alldata), FUN = function(name) { print(name); print(extract_record(alldata, name, 1))})
 
  
