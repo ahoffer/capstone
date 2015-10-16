@@ -12,4 +12,8 @@ vs = g[order(V(g)$votes_funny, decreasing = TRUE)]
 
 print(vs[1:10], vertex.attributes=TRUE)
 
+is.connected(g)
+
+degree(g)
+
 V(g)[V(g)$votes_funny > 0]

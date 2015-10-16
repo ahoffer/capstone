@@ -1,3 +1,5 @@
+start_time = proc.time()
+
 source("packages.R")
 packages("igraph")
 
@@ -6,21 +8,21 @@ packages("igraph")
 # names(alldata$user.json$votes)
 
 #Are all user names unique? NO.
-unames = alldata$user.json$name
-length(unique(unames)) == length(unames)
+# unames = alldata$user.json$name
+# length(unique(unames)) == length(unames)
 
 #User nodes
 g = make_empty_graph();
 objects = alldata$user.json
 g = g + vertex(
-  objects$user_id,
+  objects$name,
   color = "red",
   yelping_since = as.Date(objects$yelping_since, "%Y=%m"),
   votes_funny = objects$votes$funny,
   votes_useful = objects$votes$useful,
   votes_cool = objects$votes$cool,
   review_count = objects$review_count,
-  realname = objects$name,
+  id = objects$user_id,
   fans = objects$fans,
   average_stars = objects$average_stars,
   type = objects$type,
@@ -47,10 +49,10 @@ g = g + vertex(
 #Business nodes
 objects = alldata$business.json
 g = g + vertex(
-  objects$business_id,
+  objects$name,
   color = "pink",
   type = objects$type,
-  realname =  objects$name,
+  id =  objects$business_id,
   city = objects$city,
   state = objects$state,
   starts = objects$stars,
@@ -59,15 +61,14 @@ g = g + vertex(
 
 #Direct edge from a user to his/her review of a business
 r = alldata$review.json
-reviews = r[is.element(r$user_id, V(g)$name) & is.element(r$business_id, V(g)$name),]
+reviews = r[is.element(r$user_id, V(g)$id) & is.element(r$business_id, V(g)$id),]
 print(paste("Creating", nrow(reviews), "reviews"))
 
 #Convert NA to zero
 reviews$votes[is.na(reviews$votes)] = 0
 
-g = g +    edge(
-  reviews$user_id,
-  reviews$business_id,
+g = g +    edge(reviews$user_id,
+  V(g)[id == reviews$business_id],
   color = "gray",
   votes_funny = reviews$votes$funny,
   votes_useful = reviews$votes$useful,
@@ -77,5 +78,7 @@ g = g +    edge(
   date = as.POSIXct(reviews$date)
 )
 
+elapsed_time = proc.time() - start_time
+print(elapsed_time)
 
 #Add friend relationships
