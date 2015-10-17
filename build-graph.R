@@ -11,18 +11,29 @@ packages("igraph")
 # unames = alldata$user.json$name
 # length(unique(unames)) == length(unames)
 
+
+#Find users/business when only a subset of the reviews is loaded
+r = alldata$review.json
+reviews = r[is.element(r$user_id, alldata$user.json$user_id) & is.element(r$business_id, alldata$business.json$business_id),]
+print(paste(nrow(reviews), "reviews"))
+
+
 #User nodes
+# objects = alldata$user.json
+u = alldata$user.json
+objects =u[is.element(u$user_id, reviews$user_id),]
 g = make_empty_graph();
-objects = alldata$user.json
 g = g + vertex(
-  objects$name,
+#   objects$name,
+#   id = objects$user_id,
+  objects$user_id,
+  realname = objects$user_id,
   color = "red",
   yelping_since = as.Date(objects$yelping_since, "%Y=%m"),
   votes_funny = objects$votes$funny,
   votes_useful = objects$votes$useful,
   votes_cool = objects$votes$cool,
   review_count = objects$review_count,
-  id = objects$user_id,
   fans = objects$fans,
   average_stars = objects$average_stars,
   type = objects$type,
@@ -37,8 +48,7 @@ g = g + vertex(
   compliments_profile = objects$compliments$profile,
   complimenst_photos = objects$compliments$photos,
   compliment_list  = objects$compliments$list,
-  total_compliments = rowSums(objects$compliments, na.rm =
-                                TRUE)
+  total_compliments = rowSums(objects$compliments, na.rm =TRUE)
 )
 
 #Attribute names
@@ -47,28 +57,40 @@ g = g + vertex(
 # });
 
 #Business nodes
-objects = alldata$business.json
+b = alldata$business.json
+objects = b[is.element(b$business_id, reviews$business_id),]
 g = g + vertex(
-  objects$name,
+#   objects$name,
+#   id =  objects$business_id,
+  objects$business_id,
+  realname =  objects$name,
   color = "pink",
   type = objects$type,
-  id =  objects$business_id,
   city = objects$city,
   state = objects$state,
   starts = objects$stars,
   review_count = objects$review_count
 )
 
-#Direct edge from a user to his/her review of a business
-r = alldata$review.json
-reviews = r[is.element(r$user_id, V(g)$id) & is.element(r$business_id, V(g)$id),]
-print(paste("Creating", nrow(reviews), "reviews"))
-
 #Convert NA to zero
 reviews$votes[is.na(reviews$votes)] = 0
 
-g = g +    edge(reviews$user_id,
-  V(g)[id == reviews$business_id],
+#Helper function
+# getVertexIndexesFrom = function(g, idCollection) {
+#   sapply(idCollection, function(id) {
+#     which(V(g)$id == id)
+#   })
+# }
+
+#Make edges
+#THIS WORKS, BUT MAKES IT  TOUGHER TO SET EDGE PROPOERTIES
+# user_node_index = getVertexIndexesFrom(g, reviews$user_id)
+# business_node_index = getVertexIndexesFrom(g, reviews$business_id)
+# g[user_node_index,  business_node_index] = 1
+          
+g = g +    edge(
+  reviews$user_id,
+  reviews$business_id,
   color = "gray",
   votes_funny = reviews$votes$funny,
   votes_useful = reviews$votes$useful,
@@ -78,7 +100,7 @@ g = g +    edge(reviews$user_id,
   date = as.POSIXct(reviews$date)
 )
 
-elapsed_time = proc.time() - start_time
-print(elapsed_time)
 
-#Add friend relationships
+elapsed_time2 = proc.time() - start_time
+print(elapsed_time2)
+

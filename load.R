@@ -13,12 +13,14 @@
 # #to view the data hierarchically 
 # toJSON(first_list, pretty = TRUE)
 
+s1_time = proc.time()
+
 source("packages.R")
 packages("jsonlite")
 
 #Path to directory with JSON files
 PATH = ""
-PATH = "/Users/aaronhoffer/Downloads/yelp_dataset_challenge_academic_dataset/"
+# PATH = "/Users/aaronhoffer/Downloads/yelp_dataset_challenge_academic_dataset/"
 
 #Helper method to create R objects from JSON
 json2r = function(json_file_name) {
@@ -33,10 +35,12 @@ extract_record = function(alldata, datalist, record_number) {
 # allfilenanmes = c("business.json", "checkin.json", "review.json", "tip.json", "user.json")
 allfilenanmes = c("business.json", "review.json", "user.json")
 alldata = sapply(allfilenanmes, json2r, USE.NAMES = TRUE)
-save(alldata, file="alldata.RData")
+# save(alldata, file="alldata.RData")
+save(alldata, file="smalldata.RData")
 
 # garbage = sapply(names(alldata), FUN = function(name) { print(name); print(extract_record(alldata, name, 1))})
-
+elapsed_time1 = proc.time()-start_time
  
 
-load("alldata.RData")
+# load("alldata.RData")
+load("smalldata.RData")

@@ -13,3 +13,4 @@ vignettes/*.pdf
 yelp_academic*
 *.RData
 *.RDataTmp
+*.json
