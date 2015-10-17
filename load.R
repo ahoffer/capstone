@@ -40,7 +40,7 @@ save(alldata, file="smalldata.RData")
 
 # garbage = sapply(names(alldata), FUN = function(name) { print(name); print(extract_record(alldata, name, 1))})
 elapsed_time1 = proc.time()-start_time
- 
+print(elapsed_time1) 
 
 # load("alldata.RData")
 load("smalldata.RData")
