@@ -1,33 +1,23 @@
-start_time = proc.time()
+# start_time = proc.time()
 
-source("packages.R")
-packages("igraph")
+# Find users/business when only a subset of the reviews is loaded
+print(paste(nrow(review[is.element(review$user_id, user$user_id) &
+                          is.element(review$business_id, business$business_id),]), "reviews"))
 
-# names(alldata$user.json)
-# names(alldata$user.json$compliments)
-# names(alldata$user.json$votes)
+# User nodes
+objects = user[is.element(user$user_id, review$user_id),]
 
-#Are all user names unique? NO.
-# unames = alldata$user.json$name
-# length(unique(unames)) == length(unames)
+# Set NA compliments to zero
+objects$compliments[is.na(objects$compliments)] = 0
 
+# Make empty graph
+# g = make_empty_graph(directed = FALSE);
+g=make_empty_graph();
 
-#Find users/business when only a subset of the reviews is loaded
-r = alldata$review.json
-reviews = r[is.element(r$user_id, alldata$user.json$user_id) & is.element(r$business_id, alldata$business.json$business_id),]
-print(paste(nrow(reviews), "reviews"))
-
-
-#User nodes
-# objects = alldata$user.json
-u = alldata$user.json
-objects =u[is.element(u$user_id, reviews$user_id),]
-g = make_empty_graph();
+#Make user nodes
 g = g + vertex(
-#   objects$name,
-#   id = objects$user_id,
   objects$user_id,
-  realname = objects$user_id,
+  realname = objects$name,
   color = "red",
   yelping_since = as.Date(objects$yelping_since, "%Y=%m"),
   votes_funny = objects$votes$funny,
@@ -48,23 +38,15 @@ g = g + vertex(
   compliments_profile = objects$compliments$profile,
   complimenst_photos = objects$compliments$photos,
   compliment_list  = objects$compliments$list,
-  total_compliments = rowSums(objects$compliments, na.rm =TRUE)
+  total_compliments = rowSums(objects$compliments, na.rm = TRUE)
 )
 
-#Attribute names
-# sapply(names(alldata$business.json$attributes), USE.NAMES = FALSE, function(name) {
-#   gsub("\\s", "-", name, perl = TRUE)
-# });
-
 #Business nodes
-b = alldata$business.json
-objects = b[is.element(b$business_id, reviews$business_id),]
+objects = business[is.element(business$business_id, review$business_id),]
 g = g + vertex(
-#   objects$name,
-#   id =  objects$business_id,
   objects$business_id,
   realname =  objects$name,
-  color = "pink",
+  color = "blue",
   type = objects$type,
   city = objects$city,
   state = objects$state,
@@ -73,34 +55,22 @@ g = g + vertex(
 )
 
 #Convert NA to zero
-reviews$votes[is.na(reviews$votes)] = 0
+review$votes[is.na(review$votes)] = 0
+review$stars[is.na(review$stars)] = 0
 
-#Helper function
-# getVertexIndexesFrom = function(g, idCollection) {
-#   sapply(idCollection, function(id) {
-#     which(V(g)$id == id)
-#   })
-# }
-
-#Make edges
-#THIS WORKS, BUT MAKES IT  TOUGHER TO SET EDGE PROPOERTIES
-# user_node_index = getVertexIndexesFrom(g, reviews$user_id)
-# business_node_index = getVertexIndexesFrom(g, reviews$business_id)
-# g[user_node_index,  business_node_index] = 1
-          
+#Edges
 g = g +    edge(
-  reviews$user_id,
-  reviews$business_id,
-  color = "gray",
-  votes_funny = reviews$votes$funny,
-  votes_useful = reviews$votes$useful,
-  votes_cool = reviews$votes$cool,
-  name = reviews$review_id,
-  stars = reviews$stars,
-  date = as.POSIXct(reviews$date)
+ interleave(review$user_id,review$business_id),
+  weight = 1,
+  votes_funny = review$votes$funny,
+  votes_useful = review$votes$useful,
+  votes_cool = review$votes$cool,
+  name = review$review_id,
+  stars = review$stars,
+  date = as.POSIXct(review$date)
 )
 
+graph_copy  = g
 
-elapsed_time2 = proc.time() - start_time
-print(elapsed_time2)
-
+# elapsed_time2 = proc.time() - start_time
+# print(elapsed_time2)
