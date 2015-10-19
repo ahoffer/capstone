@@ -1,11 +1,16 @@
-# start_time = proc.time()
 
 # Find users/business when only a subset of the reviews is loaded
 print(paste(nrow(review[is.element(review$user_id, user$user_id) &
                           is.element(review$business_id, business$business_id),]), "reviews"))
 
 # User nodes
-objects = user[is.element(user$user_id, review$user_id),]
+
+#Only users involved in revies
+reviewing_users = user[is.element(user$user_id, review$user_id),]
+
+#All users
+# objects = user
+objects = reviewing_users
 
 # Set NA compliments to zero
 objects$compliments[is.na(objects$compliments)] = 0
@@ -70,7 +75,17 @@ g = g +    edge(
   date = as.POSIXct(review$date)
 )
 
+#Clean up
+remove(objects)
+
+#Set common properties
+V(g)[V(g)$type == "user"]$color = "ivory2"
+V(g)[V(g)$type != "user"]$color = "lightcyan"
+V(g)$label.cex = 0.75
+
+#Friends edges
+g = g + edge(friendsPaths(reviewing_users))
+
+#Save copy of the graph to restore it when the state gets borked.
 graph_copy  = g
 
-# elapsed_time2 = proc.time() - start_time
-# print(elapsed_time2)

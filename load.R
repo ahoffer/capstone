@@ -1,3 +1,6 @@
+source("initialize.R")
+
+
 #-----FILENAMES----------------------------------------------------------------
 # allfilenanmes = c("business.json", "checkin.json", "review.json", "tip.json", "user.json")
 # allfilenanmes = c("business.json", "review.json", "user.json")

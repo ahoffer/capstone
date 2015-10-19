@@ -14,3 +14,5 @@ yelp_academic*
 *.RData
 *.RDataTmp
 *.json
+.DS_Store
+*.graphml

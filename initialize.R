@@ -23,7 +23,15 @@ interleave <- function(v1,v2) {
   c(v1,v2)[order(c(ord1,ord2))]
 }
 
-
+#Helper function
+friendsPaths = function(userdataset) {
+  unlist(  sapply(userdataset$user_id, function(sourceNodeId) {
+    unlist(lapply(unlist(userdataset[userdataset$user_id==sourceNodeId, "friends"]), function(targetNodeId) {
+      c(sourceNodeId, targetNodeId)
+    }))
+  }), use.names = FALSE)
+  
+}
 # ----------------------------SNIPPETS-----------------------------------------
 # CODE TO SUBSAMPLE THE DATA
 # perl -ne 'print if (rand() < .001)' yelp_academic_dataset_review.json > small_reviews
