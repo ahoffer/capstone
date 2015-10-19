@@ -58,7 +58,7 @@ g = g + vertex(
 review$votes[is.na(review$votes)] = 0
 review$stars[is.na(review$stars)] = 0
 
-#Edges
+#Review Edges
 g = g +    edge(
  interleave(review$user_id,review$business_id),
   weight = 1,
