@@ -16,3 +16,4 @@ yelp_academic*
 *.json
 .DS_Store
 *.graphml
+*.cys

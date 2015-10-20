@@ -2,8 +2,8 @@ set.seed(0)
 
 source("packages.R")
 packages("jsonlite")
-packages("igraph")
 packages("tcltk")
+packages("igraph")
 
 #Helper method to create R objects from JSON
 json2r = function(json_file_name) {

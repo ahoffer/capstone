@@ -1,23 +1,18 @@
+#Random sample
+# review_sample = review[sample(nrow(review), 15), ]
 
-# SUBET THE REIVEWS
-review_copy = review
-review_sample = review[sample(nrow(review), 30), ]
-
-
-# User nodes
-#Only users involved in reviews
-# reviewing_users = user[is.element(user$user_id, review_sample$user_id),]
+#Non random sample
+review_sample = review[10:20 ,]
 
 #All users
 objects = user
-# objects = reviewing_users
 
 # Set NA compliments to zero
 objects$compliments[is.na(objects$compliments)] = 0
 
 # Make empty graph
-# g = make_empty_graph(directed = FALSE);
-g=make_empty_graph();
+g = make_empty_graph(directed = FALSE);
+# g=make_empty_graph(directed = TRUE);
 
 #Make user nodes
 g = g + vertex(
@@ -78,14 +73,16 @@ g = g +    edge(
 #Clean up
 remove(objects)
 
-#Set common properties
-# V(g)[V(g)$type == "user"]$color = "ivory2"
-# V(g)[V(g)$type != "user"]$color = "lightcyan"
-# V(g)$label.cex = 0.75
+#Only users involved in reviews. Otherwise, too many edges and computer pukes.
+reviewing_users = user[is.element(user$user_id, review_sample$user_id),]
 
 #Friends edges
-e= edge(friendsPaths(reviewing_users))
-g = g + e
+g = g + edge(friendsPaths(reviewing_users), 
+             weight =1)
+
+
+#Remove nodes that have no edges
+g = g - V(g)[degree(g) == 0]
 
 #Save copy of the graph to restore it when the state gets borked.
 graph_copy  = g

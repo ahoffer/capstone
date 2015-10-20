@@ -1,33 +1,39 @@
 #Exploration
 g=graph_copy
 
-usethesenodes = c(reviewing_users$user_id, unlist(reviewing_users$friends, use.names=FALSE))
-excludethesenodes = setdiff(usethesenodes, V(g)$name)
-g = delete_vertices(g, excludethesenodes)
+
+# write.graph(g, "g.graphml", format="graphml")
+# write.graph(g, "777-774.graphml", format="graphml")
+
+#Set common properties
+# V(g)[V(g)$type == "user"]$color = "ivory2"
+# V(g)[V(g)$type != "user"]$color = "lightcyan"
+# V(g)$label.cex = 0.75
 
 
-write.graph(g, "g.graphml", format="graphml")
+#Remove trouble-some vertices
+g = g - vertex(which(degree(g) > 100))
 
+#Remove unconnected nodes
+g = g - vertex(degree(g) == 0)
 
+#Whitespace margins below, above, left and right of the plot
+margin = c(0,0,0,0)
+
+layout = layout.drl(g)
+# layout = layout.star(g) # non-conformable arrays
+# layout = layout.bipartite(g, types  = V(g)$type != "user")
+tkplot(g)
 plot.igraph(g, 
-            vertex.label = V(g)$realname, 
+            # vertex.label = V(g)$realname, 
+            vertex.size = 4,
+            # vertex.label = NA,
             vertex.label.font=1,
             edge.arrow.size = 0.4,
             edge.arrow.width = 0.75,
-            edge.curved=TRUE,
-            # EQUIVALENT
-            # layout=layout_as_star,
-            #layout=layout.star,
-            
-            # OTHER
-            # layout=layout.davidson.harel,
-            # layout=layout.random,
-            # layout=layout.gem(g,),
-            # layout=layout.graphopt,
-            # layout=layout.grid(g),
-            #layout=layout.mds(g),
-            #layout=layout.sugiyama(g),
-            # layout=layout.fruchterman.reingold,
+            layout = layout,
+            margin=margin,
+            rescale = TRUE
             )
 
 # tot_comp= V(g)[V(g)$type == "user"]$total_compliments
