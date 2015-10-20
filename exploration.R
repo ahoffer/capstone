@@ -3,8 +3,6 @@ g=graph_copy
 
 usethesenodes = c(reviewing_users$user_id, unlist(reviewing_users$friends, use.names=FALSE))
 excludethesenodes = setdiff(usethesenodes, V(g)$name)
-
-
 g = delete_vertices(g, excludethesenodes)
 
 
@@ -38,3 +36,4 @@ plot.igraph(g,
 # boxplot(log(tot_comp))
 # hist(log(tot_comp),breaks = 50)
 # tot_comp[order(tot_comp)]
+hist(log(V(g)[V(g)$type=="user"]$total_compliments))

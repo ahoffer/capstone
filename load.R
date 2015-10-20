@@ -7,7 +7,7 @@ source("initialize.R")
 
 #-----JSON -> R OBJECTS--------------------------------------------------------
 # alldata = sapply(allfilenanmes, json2r, USE.NAMES = TRUE)
-review=json2r("./count30/review.json")
+review=json2r("./percent100//review.json")
 business.json=json2r("./percent100/business.json")
 user=json2r("./percent100/user.json")
 
@@ -15,9 +15,9 @@ user=json2r("./percent100/user.json")
 save(business, file = "percent100/business.RData")
 save(review, file = "percent100/review.RData")
 save(user, file = "percent100/user.RData")
-save(review, file="count30/review.RData")
+save(review, file="percent100//review.RData")
 #-----LOADING------------------------------------------------------------------
-load("count30/review.RData") 
+load("percent100/review.RData") 
 load("percent100/user.RData")
 load("percent100/business.RData")
 

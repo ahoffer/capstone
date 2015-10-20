@@ -1,16 +1,16 @@
 
-# Find users/business when only a subset of the reviews is loaded
-print(paste(nrow(review[is.element(review$user_id, user$user_id) &
-                          is.element(review$business_id, business$business_id),]), "reviews"))
+# SUBET THE REIVEWS
+review_copy = review
+review_sample = review[sample(nrow(review), 30), ]
+
 
 # User nodes
-
-#Only users involved in revies
-reviewing_users = user[is.element(user$user_id, review$user_id),]
+#Only users involved in reviews
+# reviewing_users = user[is.element(user$user_id, review_sample$user_id),]
 
 #All users
-# objects = user
-objects = reviewing_users
+objects = user
+# objects = reviewing_users
 
 # Set NA compliments to zero
 objects$compliments[is.na(objects$compliments)] = 0
@@ -47,7 +47,7 @@ g = g + vertex(
 )
 
 #Business nodes
-objects = business[is.element(business$business_id, review$business_id),]
+objects = business
 g = g + vertex(
   objects$business_id,
   realname =  objects$name,
@@ -55,36 +55,37 @@ g = g + vertex(
   type = objects$type,
   city = objects$city,
   state = objects$state,
-  starts = objects$stars,
+  stars = objects$stars,
   review_count = objects$review_count
 )
 
 #Convert NA to zero
-review$votes[is.na(review$votes)] = 0
-review$stars[is.na(review$stars)] = 0
+review_sample$votes[is.na(review_sample$votes)] = 0
+review_sample$stars[is.na(review_sample$stars)] = 0
 
 #Review Edges
 g = g +    edge(
- interleave(review$user_id,review$business_id),
+ interleave(review_sample$user_id,review_sample$business_id),
   weight = 1,
-  votes_funny = review$votes$funny,
-  votes_useful = review$votes$useful,
-  votes_cool = review$votes$cool,
-  name = review$review_id,
-  stars = review$stars,
-  date = as.POSIXct(review$date)
+  votes_funny = review_sample$votes$funny,
+  votes_useful = review_sample$votes$useful,
+ votes_cool = review_sample$votes$cool,
+  name = review_sample$review_id,
+  stars = review_sample$stars,
+  date = as.POSIXct(review_sample$date)
 )
 
 #Clean up
 remove(objects)
 
 #Set common properties
-V(g)[V(g)$type == "user"]$color = "ivory2"
-V(g)[V(g)$type != "user"]$color = "lightcyan"
-V(g)$label.cex = 0.75
+# V(g)[V(g)$type == "user"]$color = "ivory2"
+# V(g)[V(g)$type != "user"]$color = "lightcyan"
+# V(g)$label.cex = 0.75
 
 #Friends edges
-g = g + edge(friendsPaths(reviewing_users))
+e= edge(friendsPaths(reviewing_users))
+g = g + e
 
 #Save copy of the graph to restore it when the state gets borked.
 graph_copy  = g
