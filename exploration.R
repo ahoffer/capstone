@@ -36,4 +36,8 @@ plot.igraph(g,
 # boxplot(log(tot_comp))
 # hist(log(tot_comp),breaks = 50)
 # tot_comp[order(tot_comp)]
-hist(log(V(g)[V(g)$type=="user"]$total_compliments))
+
+all.compliments = V(g)[V(g)$type=="user"]$total_compliments
+hist(log(all.compliments),  xlim=c(0,8))
+plot(density(log(all.compliments)))
+?density
