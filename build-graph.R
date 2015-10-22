@@ -1,8 +1,10 @@
+source("initialize.R")
+
 #Random sample
 # review_sample = review[sample(nrow(review), 15), ]
 
 #Non random sample
-review_sample = review[10:20 ,]
+review_sample = review[ ,]
 
 #All users
 objects = user
@@ -37,7 +39,7 @@ g = g + vertex(
   compliments_more = objects$compliments$more,
   compliments_profile = objects$compliments$profile,
   complimenst_photos = objects$compliments$photos,
-  compliment_list  = objects$compliments$list,
+  compliments_list  = objects$compliments$list,
   total_compliments = rowSums(objects$compliments, na.rm = TRUE)
 )
 

@@ -1,1 +1,13 @@
-All about special node and edge attributes - http://igraph.org/python/doc/tutorial/tutorial.html
+-------------------------------------------------------------------------------
+IGRAPH
+-------------------------------------------------------------------------------
+igraph manual - http://igraph.org/r/doc/
+example igraph visualizations - https://rulesofreason.wordpress.com/2012/11/05/network-visualization-in-r-with-the-igraph-package/
+
+-------------------------------------------------------------------------------
+NETSTAT
+-------------------------------------------------------------------------------
+https://statnet.org/trac/wiki/Resources
+https://statnet.shinyapps.io/statnetWeb
+
+

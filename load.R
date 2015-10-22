@@ -15,7 +15,7 @@ user=json2r("./percent100/user.json")
 save(business, file = "percent100/business.RData")
 save(review, file = "percent100/review.RData")
 save(user, file = "percent100/user.RData")
-save(review, file="percent100//review.RData")
+save(review, file="percent100/review.RData")
 #-----LOADING------------------------------------------------------------------
 load("percent100/review.RData") 
 load("percent100/user.RData")
