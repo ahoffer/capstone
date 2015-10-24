@@ -4,7 +4,10 @@ source("packages.R")
 packages("jsonlite")
 packages("tcltk")
 packages("igraph")
-packages("Hmisc")
+packages("devtools")
+packages("wordcloud")
+packages("tm")
+packages("RColorBrewer")
 
 #Helper method to create R objects from JSON
 json2r = function(json_file_name) {

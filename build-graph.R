@@ -1,5 +1,5 @@
 source("initialize.R")
-
+start.time = proc.time()
 #Random sample
 # review_sample = review[sample(nrow(review), 15), ]
 
@@ -89,3 +89,4 @@ g = g - V(g)[degree(g) == 0]
 #Save copy of the graph to restore it when the state gets borked.
 graph_copy  = g
 
+proc.time() - start.time

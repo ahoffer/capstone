@@ -21,3 +21,9 @@ load("percent100/review.RData")
 load("percent100/user.RData")
 load("percent100/business.RData")
 
+GET("http://s3.amazonaws.com/dscapstone/percent100.zip", )
+dscapstone/percent100.zip
+unzip(percent100.zip)
+
+
+download.file("http://s3.amazonaws.com/dscapstone/percent100.zip", "percent100.zip") 
