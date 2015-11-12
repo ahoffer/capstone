@@ -69,6 +69,7 @@ g = g +    edge(
  votes_cool = review_sample$votes$cool,
   name = review_sample$review_id,
   stars = review_sample$stars,
+  type="review",
   date = as.POSIXct(review_sample$date)
 )
 
@@ -80,6 +81,7 @@ reviewing_users = user[is.element(user$user_id, review_sample$user_id),]
 
 #Friends edges
 g = g + edge(friendsPaths(reviewing_users), 
+             type="friend",
              weight =1)
 
 
