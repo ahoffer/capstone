@@ -5,8 +5,8 @@ g=graph_copy
 V(g)$city = tolower(V(g)$city)
 
 #How about cities?
-cities = V(g)$city
-cities = cities[!is.na(cities)]
+# cities = V(g)$city
+# cities = cities[!is.na(cities)]
 
 #Look at the Chandler area
 chandler.vector= (V(g)$type=="user") | (V(g)$city =='chandler')
@@ -21,6 +21,15 @@ sum(V(chandler.graph)$type == "user")
 #How many businesses?
 sum(V(chandler.graph)$type != "user")
 
-diameter(chandler.graph)
+#How many edges?
+ecount(chandler.graph)
 
+#Still too many nodes and edges to run most graph
+#analysis algorithms
+#Reduce graph size to ego nets around businesses.
+
+ego.nets = ego(
+  chandler.graph, 
+  nodes=V(chandler.graph)[V(chandler.graph)$type != "user"],
+  order=1)
 
