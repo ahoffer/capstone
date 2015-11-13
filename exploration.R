@@ -12,7 +12,7 @@ V(g)$city = tolower(V(g)$city)
 chandler.vector= (V(g)$type=="user") | (V(g)$city =='chandler')
 chandler.graph = g - V(g)[!chandler.vector]
 
-#Removes uses who have no friends or have not reviewed a business
+#Removes uses who have no friends and have not reviewed a business
 chandler.graph = chandler.graph - V(chandler.graph)[degree(chandler.graph) == 0]
 
 #How many users?
@@ -27,9 +27,16 @@ ecount(chandler.graph)
 #Still too many nodes and edges to run most graph
 #analysis algorithms
 #Reduce graph size to ego nets around businesses.
-
 ego.nets = ego(
   chandler.graph, 
-  nodes=V(chandler.graph)[V(chandler.graph)$type != "user"],
+  nodes=V(chandler.graph)[type != "user"],
   order=1)
+
+#Typify the ego nets of the business to establish a baseline
+
+x= induced_subgraph(chandler.graph, ego.nets[1])
+
+subgraphs = sapply(ego.nets, function(vs) {
+ chandler.graph - vs
+})
 
