@@ -76,6 +76,17 @@ b.centrality = sapply(subgraphs, betweenness)
 #This command takes too long to run
 # b.centrality2 = sapply(subgraphs2, betweenness
 
-#Explore the idea of fun.
-#
+#Explore the user compliments.
+a= quantile(V(chandler.graph)[type=="user"]$compliments_funny)
+b= quantile(V(chandler.graph)[type=="user"]$compliments_cool)
+c= quantile(V(chandler.graph)[type=="user"]$total_compliments)
+
+#Explore the review compliments
+d= quantile(V(chandler.graph)[type !="user"]$votes_funny)
+e= quantile(V(chandler.graph)[type !="user"]$votes_useful)
+f= quantile(V(chandler.graph)[type !="user"]$votes_cool)
+
+#Select some cool users and businesses
+
+
 

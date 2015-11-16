@@ -92,3 +92,5 @@ g = g - V(g)[degree(g) == 0]
 graph_copy  = g
 
 proc.time() - start.time
+
+write_graph(g, file="yelp.graphml", format="graphml")
