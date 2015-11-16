@@ -67,3 +67,10 @@ quantile(
 # 1.000000   2.903812   4.571429   8.173147  15.020925  25.569113  36.095102 
 # 70%        80%        90%       100% 
 #   45.224641  54.581658  67.746356 123.911243 
+
+
+# Between centrality
+# Run similar calculations as degree
+b.centrality = sapply(subgraphs, betweenness)
+b.centrality2 = sapply(subgraphs2, betweenness)
+
