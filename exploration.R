@@ -1,54 +1,76 @@
 #Exploration
-g=graph_copy
+g = graph_copy
 
-#Remove trouble-some vertices
-g = g - vertex(which(degree(g) > 100))
+#scrub city names
+V(g)$city = tolower(V(g)$city)
 
-#Remove unconnected nodes
-g = g - V(g)[degree(g) == 0]
+#How about cities?
+# cities = V(g)$city
+# cities = cities[!is.na(cities)]
 
-tkplot(g)
+#Look at the Chandler area
+chandler.vector = (V(g)$type == "user") | (V(g)$city == 'chandler')
+chandler.graph = g - V(g)[!chandler.vector]
 
-#Whitespace margins below, above, left and right of the plot
-margin = c(0,0,0,0)
+#Removes uses who have no friends and have not reviewed a business
+chandler.graph = chandler.graph - V(chandler.graph)[degree(chandler.graph) == 0]
 
-layout = layout.fruchterman.reingold(g)
-# layout = layout.star(g) # non-conformable arrays
-# layout = layout.bipartite(g, types  = V(g)$type != "user")
-plot.igraph(g, 
-            # vertex.label = V(g)$realname, 
-            vertex.size = 4,
-            vertex.label = NA,
-            vertex.label.font=1,
-            edge.arrow.size = 0.4,
-            edge.arrow.width = 0.75,
-            layout = layout.fruchterman.reingold
-            )
+#How many users?
+sum(V(chandler.graph)$type == "user")
 
-# Log histogram
-funny.compliments = V(g)[V(g)$type=="user"]$compliments_funny
-h = hist(log10(funny.compliments), plot=F)
-hist(log10(funny.compliments), xlim=c(0,4))
+#How many businesses?
+sum(V(chandler.graph)$type != "user")
 
-# Log-Log historgram
-h$counts = log10(h$counts)
-plot(h, ylab='log10(Frequency)')
+#How many edges?
+ecount(chandler.graph)
 
-quantile(funny.compliments, probs = c(1:10)/10)
-# 10%     20%     30%     40%     50%     60%     70%     80%     90%    100% 
-# 0.0     0.0     0.0     1.0     3.0     6.0    12.0    27.0    86.7 10254.0 
+#Still too many nodes and edges to run most graph
+#analysis algorithms
+#Reduce graph size to ego nets around businesses.
+ego.nets = ego(chandler.graph,
+               nodes = V(chandler.graph)[type != "user"],
+               order = 1)
+
+#Typify the ego nets of the business to establish a baseline
+subgraphs = lapply(ego.nets, function(vs) {
+  induced.subgraph(chandler.graph, vs)
+})
+
+average.number.nodes = mean(sapply(subgraphs, vcount))
+average.number.edges = mean(sapply(subgraphs, ecount))
+
+#Investigate the degrees of the different ego nets
+degrees = sapply(subgraphs, degree)
+average.degrees = sapply(degrees, mean)
+hist(average.degrees)
+quantile(average.degrees, seq(0, 1, 0.1))
+#For ego.net where order = 1 
+# 0%       10%       20%       30%       40%       50% 
+#   1.000000  1.500000  1.600000  1.666667  1.777778  1.885621 
+# 60%       70%       80%       90%      100% 
+# 2.000000  2.228205  2.469804  3.000000 14.585366 
 
 
-# Look for correlations between degree and fun
-#Very, very little correlations. Surprising because you think more friends, more reviews 
-#would correlate strongly with the number of compliments
-d  = degree(g)
-x = log10(d)
-y = log10(V(g)$compliments_funny)
-plot(x,y, pch=20, col="blue")
-df = data.frame("x" = x, "y" = y)
-ddf = df[df$x > 1 & df$y> 1 ,]
+#Expand ego nets to 2 edges out from the businesses
+ego.nets2 = ego(chandler.graph,
+               nodes = V(chandler.graph)[type != "user"],
+               order = 2)
 
-plot(y~x, data = ddf, pch=20, col="blue")
+subgraphs2 = lapply(ego.nets2, function(vs) {
+  induced.subgraph(chandler.graph, vs)
+})
 
+quantile(
+  sapply(sapply(subgraphs2, degree), mean), 
+  seq(0, 1, 0.1))
+# 0%        10%        20%        30%        40%        50%        60% 
+# 1.000000   2.903812   4.571429   8.173147  15.020925  25.569113  36.095102 
+# 70%        80%        90%       100% 
+#   45.224641  54.581658  67.746356 123.911243 
+
+
+# Between centrality
+# Run similar calculations as degree
+b.centrality = sapply(subgraphs, betweenness)
+b.centrality2 = sapply(subgraphs2, betweenness)
 

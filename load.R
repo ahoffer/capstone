@@ -21,3 +21,4 @@ load("percent100/review.RData")
 load("percent100/user.RData")
 load("percent100/business.RData")
 
+load("fullgraph.RData")

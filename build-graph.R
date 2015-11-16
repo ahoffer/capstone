@@ -1,5 +1,5 @@
 source("initialize.R")
-
+start.time = proc.time()
 #Random sample
 # review_sample = review[sample(nrow(review), 15), ]
 
@@ -69,6 +69,7 @@ g = g +    edge(
  votes_cool = review_sample$votes$cool,
   name = review_sample$review_id,
   stars = review_sample$stars,
+  type="review",
   date = as.POSIXct(review_sample$date)
 )
 
@@ -80,6 +81,7 @@ reviewing_users = user[is.element(user$user_id, review_sample$user_id),]
 
 #Friends edges
 g = g + edge(friendsPaths(reviewing_users), 
+             type="friend",
              weight =1)
 
 
@@ -89,3 +91,4 @@ g = g - V(g)[degree(g) == 0]
 #Save copy of the graph to restore it when the state gets borked.
 graph_copy  = g
 
+proc.time() - start.time
