@@ -72,5 +72,10 @@ quantile(
 # Between centrality
 # Run similar calculations as degree
 b.centrality = sapply(subgraphs, betweenness)
-b.centrality2 = sapply(subgraphs2, betweenness)
+
+#This command takes too long to run
+# b.centrality2 = sapply(subgraphs2, betweenness
+
+#Explore the idea of fun.
+#
 
