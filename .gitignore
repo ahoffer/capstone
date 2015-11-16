@@ -17,3 +17,5 @@ yelp_academic*
 .DS_Store
 *.graphml
 *.cys
+percent100.zip
+/visualizations/*
