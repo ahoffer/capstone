@@ -94,3 +94,4 @@ graph_copy  = g
 proc.time() - start.time
 
 write_graph(g, file="yelp.graphml", format="graphml")
+g=read_graph(file="yelp.graphml", format="graphml")

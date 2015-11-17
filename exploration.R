@@ -165,16 +165,43 @@ plot(p)
 
 
 #Most impactful businesses
-index.impactful = head(order(V(chandler.graph)$impact, decreasing = T))
-most.impactful.index =  index.impactful[1]
+index.impactful = order(V(chandler.graph)$impact, decreasing = T)
+most.impactful.index =  index.impactful[2]
 most.impactful.neighborhood.vs = neighborhood(chandler.graph, order=1, nodes=most.impactful.index)[[1]]
 graph.impact <- induced_subgraph(chandler.graph, most.impactful.neighborhood.vs)
-graph.impact
+E(graph.impact)$starlabel = "?"
+logical.vector = !is.nan(E(graph.impact)$stars)
+E(graph.impact)[logical.vector]$starlabel = E(graph.impact)[logical.vector]$stars
+
+number.of.colors = 5
+pal <- colorRampPalette(brewer.pal(3, "GnBu"))(number.of.colors)
+
+edgeColorMapIdx = function(x) {
+  #Values less than 1 map to 1
+  #Values greater than 500 map to 500
+  if (is.nan(x)) return(1)
+  x  = if (x < 1) 1 else x
+  x = if (x>number.of.colors) return(number.of.colors) else x
+  ceiling(x) %% (number.of.colors -1)
+}
+
+edgeColor = function(x) {
+  pal[edgeColorMapIdx(x)]
+}
+
+edgeColorMap(0)
+edgeColorMap(1)
+edgeColorMap(2)
+edgeColorMap(0.0000001)
+edgeColorMap(500)
+edgeColorMap(500.1)
+edgeColorMap(502)
+
 plot.igraph(graph.impact, 
-            vertex.label = V(g)$realname, 
+            vertex.label = V(graph.impact)$realname, 
             vertex.size = 4,
-            vertex.label = NA,
             vertex.label.font=1,
+            edge.color = sapply(E(graph.impact)$stars, edgeColor),
             edge.arrow.size = 0.4,
             edge.arrow.width = 0.75,
             layout = layout.fruchterman.reingold)
