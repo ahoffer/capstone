@@ -88,9 +88,17 @@ quantile(E(chandler.graph)$votes_useful, na.rm=T)
 quantile(E(chandler.graph)$votes_cool, na.rm=T)
 
 #Explore businesses
+# - - - - - - - - - - - - - 
+#Create a copy of the businesses
 vs.business = V(chandler.graph)[type != "user"]
+
+#Assess impact of a business
 V(chandler.graph)[type != "user"]$impact =0
-V(chandler.graph)[type != "user"]$impact <- vs.business$stars * vs.business$stars *log(vs.business$review_count)
+V(chandler.graph)[type != "user"]$impact <- vs.business$stars * vs.business$stars * log(vs.business$review_count)
+
+#Refresh copy of the vbusinesses
+vs.business = V(chandler.graph)[type != "user"]
+
 hist(vs.business$impact)
 hist(vs.business$stars)
 plot(density(log10(vs.business$review_count)))
@@ -132,16 +140,45 @@ cor.test(vs.business$impact, vs.business$review_count)
 # 0.634095 
 
 
+#Log of review count increases correlation with impact
+cor.test(vs.business$impact, log10(vs.business$review_count))
+# data:  vs.business$impact and log10(vs.business$review_count)
+# t = 49.775, df = 1850, p-value < 2.2e-16
+# alternative hypothesis: true correlation is not equal to 0
+# 95 percent confidence interval:
+#   0.7364717 0.7754622
+# sample estimates:
+#   cor 
+# 0.7566389 
 
+
+#Impact has a nicer distribution than reviews (long tail) or stars (little variation)
+quantile(vs.business$impact, seq(0,1,0.1))
+# 0%        10%        20%        30%        40%        50%        60%        70%        80%        90%       100% 
+# 1.098612   9.887511  14.986845  21.170645  25.751007  29.518374  35.155593  42.224917  50.848861  62.913099 108.755420 
 
 
 p = ecdf(vs.business$impact)
-quantile(vs.business$impact, seq(0,1,0.1))
+plot(p)
+p = ecdf(log10(vs.business$review_count))
 plot(p)
 
 
-#Most impactful business
-
-
-# x=V(chandler.graph)[order(V(chandler.graph)[type=="user"]$compliments_funny, decreasing = T)[1:10]]
+#Most impactful businesses
+index.impactful = head(order(V(chandler.graph)$impact, decreasing = T))
+most.impactful.index =  index.impactful[1]
+most.impactful.neighborhood.vs = neighborhood(chandler.graph, order=1, nodes=most.impactful.index)[[1]]
+graph.impact <- induced_subgraph(chandler.graph, most.impactful.neighborhood.vs)
+graph.impact
+plot.igraph(graph.impact, 
+            vertex.label = V(g)$realname, 
+            vertex.size = 4,
+            vertex.label = NA,
+            vertex.label.font=1,
+            edge.arrow.size = 0.4,
+            edge.arrow.width = 0.75,
+            layout = layout.fruchterman.reingold)
+            
+            
+            # x=V(chandler.graph)[order(V(chandler.graph)[type=="user"]$compliments_funny, decreasing = T)[1:10]]
 # x[[]]
