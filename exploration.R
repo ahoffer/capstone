@@ -77,16 +77,71 @@ b.centrality = sapply(subgraphs, betweenness)
 # b.centrality2 = sapply(subgraphs2, betweenness
 
 #Explore the user compliments.
-a= quantile(V(chandler.graph)[type=="user"]$compliments_funny)
-b= quantile(V(chandler.graph)[type=="user"]$compliments_cool)
-c= quantile(V(chandler.graph)[type=="user"]$total_compliments)
+quants = seq(0.95,1,0.1)
+quantile(V(chandler.graph)[type=="user"]$compliments_funny, quants)
+quantile(V(chandler.graph)[type=="user"]$compliments_cool)
+quantile(V(chandler.graph)[type=="user"]$total_compliments)
 
 #Explore the review compliments
-d= quantile(V(chandler.graph)[type !="user"]$votes_funny)
-e= quantile(V(chandler.graph)[type !="user"]$votes_useful)
-f= quantile(V(chandler.graph)[type !="user"]$votes_cool)
+quantile(E(chandler.graph)$votes_funny, na.rm=T, quants)
+quantile(E(chandler.graph)$votes_useful, na.rm=T)
+quantile(E(chandler.graph)$votes_cool, na.rm=T)
 
-#Select some cool users and businesses
+#Explore businesses
+vs.business = V(chandler.graph)[type != "user"]
+V(chandler.graph)[type != "user"]$impact =0
+V(chandler.graph)[type != "user"]$impact <- vs.business$stars * vs.business$stars *log(vs.business$review_count)
+hist(vs.business$impact)
+hist(vs.business$stars)
+plot(density(log10(vs.business$review_count)))
+plot(density(vs.business$impact))
+
+
+#Number of stars and number of reviews are not (strongly) correlated
+cor.test(vs.business$stars, vs.business$review_count)
+# Pearson's product-moment correlation
+# data:  vs.business$stars and vs.business$review_count
+# t = 1.0179, df = 1850, p-value = 0.3089
+# alternative hypothesis: true correlation is not equal to 0
+# 95 percent confidence interval:
+# -0.02191415  0.06913300
+# sample estimates:
+# cor 
+# 0.02365849 
+
+#Does the new impact measure correlate with stars or number of reviews? YES and YES, 
+#but not perfectly.
+cor.test(vs.business$impact, vs.business$stars)
+# data:  vs.business$impact and vs.business$stars
+# t = 31.631, df = 1850, p-value < 2.2e-16
+# alternative hypothesis: true correlation is not equal to 0
+# 95 percent confidence interval:
+#   0.5620729 0.6212384
+# sample estimates:
+#   cor 
+# 0.592454 
+
+cor.test(vs.business$impact, vs.business$review_count)
+# data:  vs.business$impact and vs.business$review_count
+# t = 35.271, df = 1850, p-value < 2.2e-16
+# alternative hypothesis: true correlation is not equal to 0
+# 95 percent confidence interval:
+#   0.6060501 0.6605653
+# sample estimates:
+#   cor 
+# 0.634095 
 
 
 
+
+
+p = ecdf(vs.business$impact)
+quantile(vs.business$impact, seq(0,1,0.1))
+plot(p)
+
+
+#Most impactful business
+
+
+# x=V(chandler.graph)[order(V(chandler.graph)[type=="user"]$compliments_funny, decreasing = T)[1:10]]
+# x[[]]
